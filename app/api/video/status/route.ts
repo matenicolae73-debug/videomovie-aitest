@@ -1,0 +1,2 @@
+import {NextResponse} from "next/server"
+export async function GET(req:Request){const id=new URL(req.url).searchParams.get("id")||""; if(!id)return NextResponse.json({ok:false,error:"Job id is required."},{status:400}); return NextResponse.json({ok:true,requestId:id,status:"UNKNOWN_OR_LOCAL",videoUrl:null,message:"For local mode the browser render is immediate. For external providers, add provider-specific polling here."})}
