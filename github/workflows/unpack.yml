@@ -1,0 +1,56 @@
+name: Extract ViralMovie ZIP
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Find and extract ZIP
+        run: |
+          set -e
+
+          ZIP_FILE=$(find . -maxdepth 1 -type f -name "*.zip" | head -n 1)
+
+          if [ -z "$ZIP_FILE" ]; then
+            echo "Nu exista niciun fisier ZIP in repository."
+            exit 1
+          fi
+
+          echo "Extractez: $ZIP_FILE"
+
+          mkdir -p extracted
+          unzip -o "$ZIP_FILE" -d extracted
+
+          shopt -s dotglob
+          cp -R extracted/* .
+
+          rm -rf extracted
+          rm -f "$ZIP_FILE"
+
+          echo "Extractarea s-a terminat."
+
+      - name: Commit extracted project
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add -A
+
+          if git diff --cached --quiet; then
+            echo "Nu exista modificari de salvat."
+          else
+            git commit -m "Extract ViralMovie project"
+            git push
+          fi
