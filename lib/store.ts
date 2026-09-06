@@ -18,9 +18,7 @@ export function getUser(userId: string): UserStore {
 
 export function addCredits(userId: string, amount: number) {
   const user = getUser(userId)
-
   user.credits += amount
-
   return user
 }
 
@@ -32,14 +30,11 @@ export function useCredits(userId: string, amount = 1) {
   }
 
   user.credits -= amount
-
   return user
 }
 
 export function setPlan(userId: string, plan: string) {
   const user = getUser(userId)
-
   user.plan = plan
-
   return user
 }
