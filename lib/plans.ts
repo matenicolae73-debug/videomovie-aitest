@@ -12,14 +12,12 @@ export const PLANS: Record<string, Plan> = {
     price: 0,
     credits: 1,
   },
-
   starter: {
     id: "starter",
     name: "Starter",
     price: 299,
     credits: 10,
   },
-
   pro: {
     id: "pro",
     name: "Pro",
